@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panneau d'Administration - Le Sens du Bien-être</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            background-color: #FFFFFF;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: #000000;
+            color: #D4AF37;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-section {
+            max-width: 400px;
+            margin: 3rem auto;
+            background: #FFFFFF;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #D4AF37;
+        }
+
+        .admin-section {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #D4AF37;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #C0A030;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: #D4AF37;
+            color: #000000;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #C0A030;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: #FFFFFF;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: #FFFFFF;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #D4AF37;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            color: #000000;
+        }
+
+        .tab.active {
+            border-bottom-color: #D4AF37;
+            color: #D4AF37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .items-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .item-card {
+            background: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #D4AF37;
+        }
+
+        .item-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #D4AF37;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #C0A030;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .item-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Panneau d'Administration</h1>
+            <p>Gérez vos produits et liens sociaux</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="/" class="back-link">← Retour au site web</a>
+
+        <!-- Login Section -->
+        <div id="login-section" class="login-section">
+            <h2>Connexion Administrateur</h2>
+            <div id="login-message"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Se connecter</button>
+            </form>
+        </div>
+
+        <!-- Admin Section -->
+        <div id="admin-section" class="admin-section">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('products')">Produits</button>
+                <button class="tab" onclick="showTab('social')">Liens Sociaux</button>
+            </div>
+
+            <button id="logout-btn" class="btn btn-secondary" style="float: right; margin-bottom: 1rem;">Déconnexion</button>
+            <div style="clear: both;"></div>
+
+            <!-- Products Tab -->
+            <div id="products-tab" class="tab-content active">
+                <h2>Gérer les Produits</h2>
+                <div id="product-message"></div>
+                
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    <div class="form-group">
+                        <label for="product-name">Nom du produit:</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Catégorie:</label>
+                        <input type="text" id="product-category" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Prix (€):</label>
+                        <input type="number" id="product-price" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description:</label>
+                        <textarea id="product-description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">URL de l'image:</label>
+                        <input type="url" id="product-image">
+                    </div>
+                    <button type="submit" class="btn" id="product-submit">Ajouter le produit</button>
+                    <button type="button" class="btn btn-secondary" id="product-cancel" onclick="resetProductForm()" style="display: none;">Annuler</button>
+                </form>
+
+                <div id="products-list" class="items-grid">
+                    <div class="loading">Chargement des produits...</div>
+                </div>
+            </div>
+
+            <!-- Social Links Tab -->
+            <div id="social-tab" class="tab-content">
+                <h2>Gérer les Liens Sociaux</h2>
+                <div id="social-message"></div>
+                
+                <form id="social-form">
+                    <input type="hidden" id="social-id">
+                    <div class="form-group">
+                        <label for="social-platform">Plateforme:</label>
+                        <input type="text" id="social-platform" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="social-url">URL:</label>
+                        <input type="url" id="social-url" required>
+                    </div>
+                    <button type="submit" class="btn" id="social-submit">Ajouter le lien</button>
+                    <button type="button" class="btn btn-secondary" id="social-cancel" onclick="resetSocialForm()" style="display: none;">Annuler</button>
+                </form>
+
+                <div id="social-list" class="items-grid">
+                    <div class="loading">Chargement des liens sociaux...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let isLoggedIn = false;
+
+        // Check login status on page load
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                
+                if (data.logged_in) {
+                    isLoggedIn = true;
+                    showAdminSection();
+                    loadProducts();
+                    loadSocialLinks();
+                } else {
+                    showLoginSection();
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+                showLoginSection();
+            }
+        }
+
+        // Show/hide sections
+        function showLoginSection() {
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('admin-section').style.display = 'none';
+        }
+
+        function showAdminSection() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('admin-section').style.display = 'block';
+        }
+
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Login form
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    isLoggedIn = true;
+                    showAdminSection();
+                    loadProducts();
+                    loadSocialLinks();
+                } else {
+                    showMessage('login-message', data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('login-message', 'Échec de la connexion', 'error');
+                console.error('Login error:', error);
+            }
+        });
+
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', async function() {
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+                isLoggedIn = false;
+                showLoginSection();
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        });
+
+        // Utility functions
+        function showMessage(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="message ${type}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Product management
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                
+                const container = document.getElementById('products-list');
+                
+                if (products.length === 0) {
+                    container.innerHTML = '<div class="item-card">Aucun produit trouvé</div>';
+                    return;
+                }
+                
+                const productsHTML = products.map(product => `
+                    <div class="item-card">
+                        <h3>${product.name}</h3>
+                        <p><strong>Catégorie:</strong> ${product.category}</p>
+                        <p><strong>Prix:</strong> ${product.price.toFixed(2)}€</p>
+                        <p><strong>Description:</strong> ${product.description || 'Aucune description'}</p>
+                        <p><strong>URL de l'image:</strong> ${product.imageUrl || 'Aucune image'}</p>
+                        <div class="item-actions">
+                            <button class="btn" onclick="editProduct(${product.id})">Modifier</button>
+                            <button class="btn btn-danger" onclick="deleteProduct(${product.id})">Supprimer</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = productsHTML;
+            } catch (error) {
+                document.getElementById('products-list').innerHTML = 
+                    '<div class="item-card error">Erreur lors du chargement des produits</div>';
+                console.error('Error loading products:', error);
+            }
+        }
+
+        // Product form handling
+        document.getElementById('product-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const productId = document.getElementById('product-id').value;
+            const productData = {
+                name: document.getElementById('product-name').value,
+                category: document.getElementById('product-category').value,
+                price: parseFloat(document.getElementById('product-price').value),
+                description: document.getElementById('product-description').value,
+                imageUrl: document.getElementById('product-image').value
+            };
+            
+            try {
+                const url = productId ? `/api/products/${productId}` : '/api/products';
+                const method = productId ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('product-message', data.message || 'Produit enregistré avec succès', 'success');
+                    resetProductForm();
+                    loadProducts();
+                } else {
+                    showMessage('product-message', data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('product-message', 'Erreur lors de l\'enregistrement du produit', 'error');
+                console.error('Error saving product:', error);
+            }
+        });
+
+        function editProduct(id) {
+            fetch(`/api/products/${id}`)
+                .then(response => response.json())
+                .then(product => {
+                    document.getElementById('product-id').value = product.id;
+                    document.getElementById('product-name').value = product.name;
+                    document.getElementById('product-category').value = product.category;
+                    document.getElementById('product-price').value = product.price;
+                    document.getElementById('product-description').value = product.description;
+                    document.getElementById('product-image').value = product.imageUrl;
+                    
+                    document.getElementById('product-submit').textContent = 'Mettre à jour le produit';
+                    document.getElementById('product-cancel').style.display = 'inline-block';
+                });
+        }
+
+        function resetProductForm() {
+            document.getElementById('product-form').reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('product-submit').textContent = 'Ajouter le produit';
+            document.getElementById('product-cancel').style.display = 'none';
+        }
+
+        async function deleteProduct(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce produit?')) {
+                try {
+                    const response = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        showMessage('product-message', data.message, 'success');
+                        loadProducts();
+                    } else {
+                        showMessage('product-message', data.message, 'error');
+                    }
+                } catch (error) {
+                    showMessage('product-message', 'Erreur lors de la suppression du produit', 'error');
+                    console.error('Error deleting product:', error);
+                }
+            }
+        }
+
+        // Social link management
+        async function loadSocialLinks() {
+            try {
+                const response = await fetch('/api/sociallinks');
+                const links = await response.json();
+                
+                const container = document.getElementById('social-list');
+                
+                if (links.length === 0) {
+                    container.innerHTML = '<div class="item-card">Aucun lien social trouvé</div>';
+                    return;
+                }
+                
+                const linksHTML = links.map(link => `
+                    <div class="item-card">
+                        <h3>${link.platform}</h3>
+                        <p><strong>URL:</strong> ${link.url}</p>
+                        <div class="item-actions">
+                            <button class="btn" onclick="editSocialLink(${link.id})">Modifier</button>
+                            <button class="btn btn-danger" onclick="deleteSocialLink(${link.id})">Supprimer</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = linksHTML;
+            } catch (error) {
+                document.getElementById('social-list').innerHTML = 
+                    '<div class="item-card error">Erreur lors du chargement des liens sociaux</div>';
+                console.error('Error loading social links:', error);
+            }
+        }
+
+        // Social form handling
+        document.getElementById('social-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const socialId = document.getElementById('social-id').value;
+            const socialData = {
+                platform: document.getElementById('social-platform').value,
+                url: document.getElementById('social-url').value
+            };
+            
+            try {
+                const url = socialId ? `/api/sociallinks/${socialId}` : '/api/sociallinks';
+                const method = socialId ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(socialData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('social-message', data.message || 'Lien social enregistré avec succès', 'success');
+                    resetSocialForm();
+                    loadSocialLinks();
+                } else {
+                    showMessage('social-message', data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('social-message', 'Erreur lors de l\'enregistrement du lien social', 'error');
+                console.error('Error saving social link:', error);
+            }
+        });
+
+        function editSocialLink(id) {
+            fetch(`/api/sociallinks/${id}`)
+                .then(response => response.json())
+                .then(link => {
+                    document.getElementById('social-id').value = link.id;
+                    document.getElementById('social-platform').value = link.platform;
+                    document.getElementById('social-url').value = link.url;
+                    
+                    document.getElementById('social-submit').textContent = 'Mettre à jour le lien';
+                    document.getElementById('social-cancel').style.display = 'inline-block';
+                });
+        }
+
+        function resetSocialForm() {
+            document.getElementById('social-form').reset();
+            document.getElementById('social-id').value = '';
+            document.getElementById('social-submit').textContent = 'Ajouter le lien';
+            document.getElementById('social-cancel').style.display = 'none';
+        }
+
+        async function deleteSocialLink(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce lien social?')) {
+                try {
+                    const response = await fetch(`/api/sociallinks/${id}`, { method: 'DELETE' });
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        showMessage('social-message', data.message, 'success');
+                        loadSocialLinks();
+                    } else {
+                        showMessage('social-message', data.message, 'error');
+                    }
+                } catch (error) {
+                    showMessage('social-message', 'Erreur lors de la suppression du lien social', 'error');
+                    console.error('Error deleting social link:', error);
+                }
+            }
+        }
+
+        // Load content when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+        });
+    </script>
+</body>
+</html>
+

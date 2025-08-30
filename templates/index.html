@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Sens du Bien-être</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            background-color: #FFFFFF;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: #000000;
+            color: #FFFFFF;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .logo {
+            height: 120px;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #D4AF37;
+            font-weight: 300;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #FFFFFF;
+        }
+
+        .products-section {
+            padding: 4rem 0;
+            background: #FFFFFF;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #000000;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: #FFFFFF;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #D4AF37;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(45deg, #f8f8f8, #e8e8e8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #666;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            color: #D4AF37;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .product-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #D4AF37;
+            margin-bottom: 1rem;
+        }
+
+        .product-description {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .social-section {
+            background: #000000;
+            color: #FFFFFF;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .social-section h2 {
+            color: #D4AF37;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #D4AF37;
+            color: #000000;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-link:hover {
+            background: #C0A030;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 3rem;
+            color: #e74c3c;
+            font-size: 1.2rem;
+        }
+
+        .admin-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #D4AF37;
+            color: #000000;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .admin-link:hover {
+            background: #C0A030;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                height: 80px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="/static/logo_concept_5.png" alt="Le Sens du Bien-être Logo" class="logo">
+            <h1>Le Sens du Bien-être</h1>
+            <p>Découvrez nos produits exceptionnels et connectez-vous avec nous</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="products-section">
+            <div class="container">
+                <h2 class="section-title">Nos Produits</h2>
+                <div id="products-container">
+                    <div class="loading">Chargement des produits...</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-section">
+            <div class="container">
+                <h2>Connectez-vous avec nous</h2>
+                <div id="social-container">
+                    <div class="loading">Chargement des liens sociaux...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <a href="/admin" class="admin-link">Admin</a>
+
+    <script>
+        // Fetch and display products
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                
+                const container = document.getElementById('products-container');
+                
+                if (products.length === 0) {
+                    container.innerHTML = '<div class="error">Aucun produit disponible</div>';
+                    return;
+                }
+                
+                const productsHTML = products.map(product => `
+                    <div class="product-card">
+                        <div class="product-image">
+                            ${product.imageUrl ? 
+                                `<img src="${product.imageUrl}" alt="${product.name}">` : 
+                                'Aucune image disponible'
+                            }
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">${product.category}</div>
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-price">${product.price.toFixed(2)}€</div>
+                            <div class="product-description">${product.description || 'Aucune description disponible'}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = `<div class="products-grid">${productsHTML}</div>`;
+            } catch (error) {
+                document.getElementById('products-container').innerHTML = 
+                    '<div class="error">Erreur lors du chargement des produits</div>';
+                console.error('Error loading products:', error);
+            }
+        }
+
+        // Fetch and display social links
+        async function loadSocialLinks() {
+            try {
+                const response = await fetch('/api/sociallinks');
+                const links = await response.json();
+                
+                const container = document.getElementById('social-container');
+                
+                if (links.length === 0) {
+                    container.innerHTML = '<p>Aucun lien social disponible</p>';
+                    return;
+                }
+                
+                const linksHTML = links.map(link => `
+                    <a href="${link.url}" class="social-link" target="_blank" rel="noopener noreferrer">
+                        ${link.platform}
+                    </a>
+                `).join('');
+                
+                container.innerHTML = `<div class="social-links">${linksHTML}</div>`;
+            } catch (error) {
+                document.getElementById('social-container').innerHTML = 
+                    '<div class="error">Erreur lors du chargement des liens sociaux</div>';
+                console.error('Error loading social links:', error);
+            }
+        }
+
+        // Load content when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            loadSocialLinks();
+        });
+    </script>
+</body>
+</html>
+
